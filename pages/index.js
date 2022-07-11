@@ -69,7 +69,7 @@ export default function Home() {
       {/* Content */}
 
       <footer className="bg-light py-5">
-        <div className="container px-4 px-lg-5"><div className="small text-center">Copyright © 2022 - Srisangworn Sukhothai Hospital - Dev : <a href="https://www.facebook.com/profile.php?id=100080703297745" target={'_blank'}>กนต์ธร โทนทรัพย์</a></div></div>
+        <div className="container px-4 px-lg-5"><div className="small text-center">Copyright © 2022 - Srisangworn Sukhothai Hospital - Dev : <a href="https://www.facebook.com/profile.php?id=100080703297745" target="_blank" rel="noreferrer">กนต์ธร โทนทรัพย์</a></div></div>
       </footer>
 
     </div>

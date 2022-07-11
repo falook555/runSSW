@@ -12,7 +12,7 @@ const Main = () => {
                         </div>
                         <div className="col-lg-8 align-self-baseline">
                             <p className="text-white-75 mb-5">กรณีรับเสื้อ และ BIB สามารถรับได้ที่หน้างาน ตั้งแต่เวลา 15:00 - 19:00 น. ของวันที่ 17 กันยายน 2565 และเวลา 04:00 - 05:00 น. ของวันที่ 18 กันยายน 2565</p>
-                            <a className="btn btn-primary btn-xl" href="https://docs.google.com/forms/d/e/1FAIpQLSf5GVq8yhLRcky-tGeLDgBTPxheG_Gzn3vcXK5UGOYUDmzxoQ/viewform" target={'_blank'}>สมัครวิ่ง</a>
+                            <a className="btn btn-primary btn-xl" href="https://docs.google.com/forms/d/e/1FAIpQLSf5GVq8yhLRcky-tGeLDgBTPxheG_Gzn3vcXK5UGOYUDmzxoQ/viewform" target={'_blank'} rel="noreferrer">สมัครวิ่ง</a>
                         </div>
                     </div>
                 </div>

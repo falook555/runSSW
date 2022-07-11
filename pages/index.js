@@ -10,7 +10,6 @@ export default function Home() {
   const router = useRouter()
   const { path } = router.query
 
-
   const check = () => {
     router.push({
       pathname: '/',
@@ -38,11 +37,8 @@ export default function Home() {
     })
   }
 
-
-
   return (
     <div>
-      {/* Navigation*/}
       <nav className="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
         <div className="container px-4 px-lg-5">
           <a className="navbar-brand pointer" onClick={home}>รพ.ศรีสังวรสุโขทัย</a>
@@ -58,14 +54,11 @@ export default function Home() {
       </nav>
 
       {/* Content */}
-
-
       {
         path == 'check' ? <Check />
           : path == 'contact' ? <Contact />
             : <Main />
       }
-
       {/* Content */}
 
       <footer className="bg-light py-5">

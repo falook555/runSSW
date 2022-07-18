@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import ReactInputMask from 'react-input-mask'
+import moment from 'moment'
 const Check = () => {
 
     // const [cidCheck, setcidCheck] = useState('')
@@ -9,15 +10,20 @@ const Check = () => {
     const [textShow, settextShow] = useState('')
     const [classCss, setclassCss] = useState('form-control')
     const [endData, setendData] = useState({})
+    const [YearNow, setYearNow] = useState('')
 
     useEffect(() => {
         getData()
+        const dateARR = []
+
+        dateARR = moment().add(543, 'year').format('LL').split(' ')
+        setYearNow(dateARR[2])
     }, [])
 
     //---------------------------------------------------------------------------------------------------------------------------- START GET DATA
     const getData = async () => {
         try {
-            let api = 'https://script.google.com/macros/s/AKfycbzc1zR_9oAGOalzF8v23kL60GX2gKHzTW3-JzofpEhGKJNN_hXMroid93x4LzRS4ozXPA/exec'
+            let api = 'https://script.google.com/macros/s/AKfycbzuGefuTz_gMVFP719Wv-WXI74EsL9s7Ze7jqVzBCZzbOmJLS2hWGrzPAkvU9u7hNSKNg/exec'
             axios.get(api).then(resp => {
 
                 let datacid = []
@@ -58,7 +64,7 @@ const Check = () => {
                     }
                 })
             } else {
-                settextShow('ไม่พบหมายเลขที่ท่านกรอกมาในเบื้องต้น กรุณาตรวจสอบใหม่อีกครั้ง...')
+                settextShow('ไม่พบหมายเลขที่ท่านกรอกมาในเบื้องต้น กรุณาตรวจสอบใหม่อีกครั้งครับ...')
                 setclassCss('form-control is-invalid')
             }
         }
@@ -94,35 +100,34 @@ const Check = () => {
                                 />
                             </div>
                         </div>
-
                         <div className="col-lg-8 align-self-baseline mt-5">
                             {textShow == 'Y' ?
                                 <div className="table-responsive-lg">
                                     <table className="table text-white">
                                         <tbody>
                                             <tr>
-                                                <td>ชื่อ-สกุล</td>
-                                                <td>{endData.prefix + ' ' + endData.fullname}</td>
+                                                <td style={{ textAlign: 'right' }}>ชื่อ-สกุล : </td>
+                                                <td style={{ textAlign: 'left' }}>{endData.prefix + ' ' + endData.fullname}</td>
                                             </tr>
                                             <tr>
-                                                <td>อายุ</td>
-                                                <td>{endData.age != '' ? endData.age + ' ปี' : '-'}</td>
+                                                <td style={{ textAlign: 'right' }}>อายุ : </td>
+                                                <td style={{ textAlign: 'left' }}>{endData.year != '' ? YearNow - endData.year + ' ปี' : '-'}</td>
                                             </tr>
                                             <tr>
-                                                <td>เบอร์โทร</td>
-                                                <td>{formatPhoneNumber(endData.tel)}</td>
+                                                <td style={{ textAlign: 'right' }}>เบอร์โทร : </td>
+                                                <td style={{ textAlign: 'left' }}>{formatPhoneNumber(endData.tel)}</td>
                                             </tr>
                                             <tr>
-                                                <td>ระยะแข่งขัน</td>
-                                                <td>{endData.type}</td>
+                                                <td style={{ textAlign: 'right' }}>ระยะแข่งขัน : </td>
+                                                <td style={{ textAlign: 'left' }}>{endData.type}</td>
                                             </tr>
                                             <tr>
-                                                <td>BIB</td>
-                                                <td>{endData.bib != '' ? endData.bib : '-'}</td>
+                                                <td style={{ textAlign: 'right' }}>BIB : </td>
+                                                <td style={{ textAlign: 'left' }}>{endData.bib != '' ? endData.bib : '-'}</td>
                                             </tr>
                                             <tr>
-                                                <td>สถานะการสมัคร</td>
-                                                <td><span className={endData.actions == 'Y' ? 'badge bg-success' : 'badge bg-danger'}>{endData.actions == 'Y' ? 'สมัครสำเร็จ' : 'รอจ่ายเงิน'}</span></td>
+                                                <td style={{ textAlign: 'right' }}>สถานะการสมัคร : </td>
+                                                <td style={{ textAlign: 'left' }}><span className={endData.actions == 'Y' ? 'badge bg-success' : 'badge bg-danger'}>{endData.actions == 'Y' ? 'สมัครสำเร็จ' : 'รอจ่ายเงิน'}</span></td>
                                             </tr>
                                         </tbody>
                                     </table>

@@ -127,7 +127,7 @@ const Check = () => {
                                             </tr>
                                             <tr>
                                                 <td style={{ textAlign: 'right' }}>สถานะการสมัคร : </td>
-                                                <td style={{ textAlign: 'left' }}><span className={endData.actions == 'Y' ? 'badge bg-success' : 'badge bg-danger'}>{endData.actions == 'Y' ? 'สมัครสำเร็จ' : 'รอจ่ายเงิน'}</span></td>
+                                                <td style={{ textAlign: 'left' }}><span className={endData.actions == 'Y' ? 'badge bg-success' : 'badge bg-danger'}>{endData.actions == 'Y' ? 'สมัครสำเร็จ' : 'รอตรวจสอบ'}</span></td>
                                             </tr>
                                         </tbody>
                                     </table>

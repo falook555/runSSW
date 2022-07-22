@@ -22,7 +22,7 @@ class MyDocument extends Document {
     render() {
         return (
             <Html>
-                <title>รพ.ศรีสังวรสุโขทัย</title>
+                <title>รพ.ศรีสังวร RUN</title>
                 {/* <link rel="shortcut icon" href="static/dist/img/logo.jpg" /> */}
                 <Head>
                     <div>
@@ -39,12 +39,12 @@ class MyDocument extends Document {
                     <div>
                         <Main />
                         <NextScript />
-                        <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-                        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.js"></script>
-                        <script defer src="js/scripts.js"></script>
-                        <script defer src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
-                        <script defer src="https://code.iconify.design/2/2.2.1/iconify.min.js" />
                     </div>
+                    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+                    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.js"></script>
+                    <script defer src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+                    <script defer src="https://code.iconify.design/2/2.2.1/iconify.min.js" />
+                    <script defer src="js/scripts.js"></script>
                 </body>
             </Html>
         )

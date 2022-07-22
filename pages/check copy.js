@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import config from '../config'
 import ReactInputMask from 'react-input-mask'
 import moment from 'moment'
 
-const api = config.api
-
 const Check = () => {
 
+    // const [cidCheck, setcidCheck] = useState('')
+    const [Data, setData] = useState([])
+    const [Datacid, setDatacid] = useState([])
     const [textShow, settextShow] = useState('')
     const [classCss, setclassCss] = useState('form-control')
+    const [endData, setendData] = useState({})
     const [YearNow, setYearNow] = useState('')
-    const [dataCidRegister, setdataCidRegister] = useState({})
 
     useEffect(() => {
         // getData()
@@ -21,30 +21,56 @@ const Check = () => {
         setYearNow(dateARR[2])
     }, [])
 
-    //----------------------------------------------------------------------------------------------------- START GET BY CID
-    const getCidRegis = async (cid) => {
+    //---------------------------------------------------------------------------------------------------------------------------- START GET DATA
+    const getData = async () => {
+        try {
+            let api = 'https://script.google.com/macros/s/AKfycbzuGefuTz_gMVFP719Wv-WXI74EsL9s7Ze7jqVzBCZzbOmJLS2hWGrzPAkvU9u7hNSKNg/exec'
+            axios.get(api).then(resp => {
+
+                let datacid = []
+                let dataRun = []
+                // console.log(resp.data);
+                resp.data.map((item, i) => {
+                    // console.log(item)
+                    datacid.push(item.cid)
+                    dataRun.push(item)
+                })
+                setData(dataRun)
+                setDatacid(datacid)
+            });
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    //---------------------------------------------------------------------------------------------------------------------------- END GET DATA
+
+    //----------------------------------------------------------------------------------------------------------------------------- START FUNCTION CHECK
+    const check = async (cidChecks) => {
         setclassCss('form-control')
         settextShow('')
-        if (cid.length > 12) {
-            try {
-                let res = await axios.get(`${api}/get-register-cid/${cid}`)
-                // console.log(res.data)
-                if (res.data.length == 1) {
-                    setclassCss('form-control is-valid')
-                    res.data.map((item, i) => {
-                        setdataCidRegister(item)
-                        settextShow('Y')
-                    })
-                } else {
-                    settextShow('ไม่พบหมายเลขที่ท่านกรอกมาในเบื้องต้น กรุณาตรวจสอบใหม่อีกครั้งครับ...')
-                    setclassCss('form-control is-invalid')
-                }
-            } catch (error) {
-                console.log(error)
+        let cidCheck = cidChecks.replaceAll('_', '')
+        if (cidCheck.length > 12) {
+            let cidChecks = Datacid.find(id => id === cidCheck.toString())
+            if (cidChecks > 0) {
+                setclassCss('form-control is-valid')
+                Data.map((item, i) => {
+                    if (item.cid == cidChecks) {
+                        if (item.actions == 'Y') {
+                            setendData(item)
+                            settextShow('Y')
+                        } else {
+                            setendData(item)
+                            settextShow('Y')
+                        }
+                    }
+                })
+            } else {
+                settextShow('ไม่พบหมายเลขที่ท่านกรอกมาในเบื้องต้น กรุณาตรวจสอบใหม่อีกครั้งครับ...')
+                setclassCss('form-control is-invalid')
             }
         }
     }
-    //----------------------------------------------------------------------------------------------------- END GET BY CID
+    //----------------------------------------------------------------------------------------------------------------------------- END FUNCTION CHECK
 
     //---------------------------------------------------------------------------------------------------------------------------- START FORMAT PHONE NUMBER
     function formatPhoneNumber(phoneNumberString) {
@@ -81,8 +107,7 @@ const Check = () => {
                                 <ReactInputMask type="text" className={classCss} id="cid" placeholder="กรอกเลขประจำตัวประชน" mask="9-9999-99999-99-9"
                                     onChange={e => {
                                         let cids = e.target.value.replaceAll('-', '')
-                                        let cid = cids.replaceAll('_', '')
-                                        getCidRegis(cid)
+                                        check(cids)
                                     }}
                                 />
                             </div>
@@ -94,34 +119,27 @@ const Check = () => {
                                         <tbody>
                                             <tr>
                                                 <td style={{ textAlign: 'right' }}>ชื่อ-สกุล : </td>
-                                                <td style={{ textAlign: 'left' }}>{dataCidRegister.regis_prefix + ' ' + dataCidRegister.regis_fullname}</td>
+                                                <td style={{ textAlign: 'left' }}>{endData.prefix + ' ' + endData.fullname}</td>
                                             </tr>
                                             <tr>
                                                 <td style={{ textAlign: 'right' }}>อายุ : </td>
-                                                <td style={{ textAlign: 'left' }}>{dataCidRegister.regis_year != '' ? YearNow - dataCidRegister.regis_year + ' ปี' : '-'}</td>
+                                                <td style={{ textAlign: 'left' }}>{endData.year != '' ? YearNow - endData.year + ' ปี' : '-'}</td>
                                             </tr>
                                             <tr>
                                                 <td style={{ textAlign: 'right' }}>เบอร์โทร : </td>
-                                                <td style={{ textAlign: 'left' }}>{formatPhoneNumber(dataCidRegister.regis_tel)}</td>
+                                                <td style={{ textAlign: 'left' }}>{formatPhoneNumber(endData.tel)}</td>
                                             </tr>
                                             <tr>
                                                 <td style={{ textAlign: 'right' }}>ระยะแข่งขัน : </td>
-                                                <td style={{ textAlign: 'left' }}>
-                                                    {
-                                                        dataCidRegister.regis_type == 'funrun' ? 'Fun run 5 km' :
-                                                            dataCidRegister.regis_type == 'mini' ? 'Mini 12.5 km' :
-                                                                dataCidRegister.regis_type == 'vipfunrun' ? 'VIP Fun run 5 km' :
-                                                                    dataCidRegister.regis_type == 'vipmini' ? 'VIP Mini 12.5 km' : '-'
-                                                    }
-                                                </td>
+                                                <td style={{ textAlign: 'left' }}>{endData.type}</td>
                                             </tr>
                                             <tr>
                                                 <td style={{ textAlign: 'right' }}>BIB : </td>
-                                                <td style={{ textAlign: 'left' }}>{dataCidRegister.regis_bib != null ? dataCidRegister.regis_bib : '-'}</td>
+                                                <td style={{ textAlign: 'left' }}>{endData.bib != '' ? endData.bib : '-'}</td>
                                             </tr>
                                             <tr>
                                                 <td style={{ textAlign: 'right' }}>สถานะการสมัคร : </td>
-                                                <td style={{ textAlign: 'left' }}><span className={dataCidRegister.regis_status == '1' ? 'badge bg-success' : 'badge bg-danger'}>{dataCidRegister.regis_status == '1' ? 'สมัครสำเร็จ' : 'รอตรวจสอบ'}</span></td>
+                                                <td style={{ textAlign: 'left' }}><span className={endData.actions == 'Y' ? 'badge bg-success' : 'badge bg-danger'}>{endData.actions == 'Y' ? 'สมัครสำเร็จ' : 'รอตรวจสอบ'}</span></td>
                                             </tr>
                                         </tbody>
                                     </table>

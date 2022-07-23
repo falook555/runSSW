@@ -73,7 +73,7 @@ const Register = () => {
     )
     const onsubmit = async () => {
         try {
-            let res = await axios.post(`${api}/add-Register-run`, formDataRegis)
+            let res = await axios.post(`${api}/add-register-run`, formDataRegis)
             // console.log(res)
             res.statusText == 'OK' ? toast.success('ลงทะเบียนเรียบร้อย') : toast.error('การลงทะเบียนล้มเหลว')
             setFormDataRegis({ prefix: '', fullname: '', cid: '', year: '', address: '', tel: '', type: '', size: '', typeyear: '', getshirt: '', sub_address: '', img: '' })
